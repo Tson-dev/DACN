@@ -1,13 +1,11 @@
 # SOFTWARE REQUIREMENTS SPECIFICATION (SRS)
 
-# Target GPA Achievement Prediction System
-
----
+## Target GPA Achievement Prediction System
 
 ## Document Information
 
 | Item | Value |
-|--------|--------|
+| --- | --- |
 | Project Name | Target GPA Achievement Prediction System |
 | Vietnamese Name | Hệ thống dự đoán khả năng đạt GPA mục tiêu |
 | Version | 1.0 |
@@ -15,8 +13,6 @@
 | Development Team | 2 Members |
 | Project Duration | 12 Weeks |
 | Status | Draft |
-
----
 
 # 1. Introduction
 
@@ -33,8 +29,6 @@ Tài liệu này là cơ sở cho các hoạt động:
 - Kiểm thử
 - Triển khai
 
----
-
 ## 1.2 Scope
 
 Hệ thống cho phép:
@@ -48,8 +42,6 @@ Hệ thống cho phép:
 
 Phiên bản 1 tập trung vào việc cung cấp chức năng dự đoán cơ bản và quản trị người dùng.
 
----
-
 ## 1.3 Intended Audience
 
 Tài liệu dành cho:
@@ -59,16 +51,12 @@ Tài liệu dành cho:
 - Người kiểm thử.
 - Người đánh giá đồ án.
 
----
-
 ## 1.4 References
 
 - SPEC v2
 - Project Proposal (Short Version)
 - Project Proposal (Detailed Version)
 - SRS Preparation v1
-
----
 
 # 2. Overall Description
 
@@ -95,8 +83,6 @@ Prediction Service
     ▼
 SQLite Database
 ```
-
----
 
 ## 2.2 Product Functions
 
@@ -135,8 +121,6 @@ Quyền:
 - Predict GPA Achievement
 - View Prediction History
 
----
-
 ### Admin
 
 Người quản trị hệ thống.
@@ -145,8 +129,6 @@ Quyền:
 
 - User Management
 - Student Profile Management
-
----
 
 ## 2.4 Operating Environment
 
@@ -173,8 +155,6 @@ Quyền:
 
 - CPU Only
 
----
-
 ## 2.5 Constraints
 
 - Không sử dụng GPU.
@@ -183,15 +163,11 @@ Quyền:
 - Student không được tự đăng ký tài khoản.
 - Student không được sửa hồ sơ cá nhân.
 
----
-
 ## 2.6 Assumptions
 
 - Dataset huấn luyện đã được chuẩn bị trước.
 - Model đã được huấn luyện trước khi triển khai.
 - Admin chịu trách nhiệm cập nhật dữ liệu hồ sơ sinh viên.
-
----
 
 # 3. System Actors
 
@@ -210,8 +186,6 @@ Người sử dụng chức năng dự đoán.
 - View Prediction History
 - Logout
 
----
-
 ## A2. Admin
 
 ### Description
@@ -228,11 +202,7 @@ Người quản trị hệ thống.
 - Unlock User
 - Logout
 
----
-
 # 4. Functional Requirements
-
----
 
 ## FR-01 Login
 
@@ -255,15 +225,11 @@ Hệ thống phải cho phép người dùng đăng nhập bằng tài khoản �
 - Đăng nhập thành công.
 - Hoặc thông báo lỗi.
 
----
-
 ## FR-02 Logout
 
 ### Description
 
 Hệ thống phải cho phép người dùng đăng xuất khỏi hệ thống.
-
----
 
 ## FR-03 View Profile
 
@@ -285,8 +251,6 @@ Hiển thị:
 - Sleep Hours
 - Social Hours
 - Previous CGPA
-
----
 
 ## FR-04 Submit Prediction Request
 
@@ -311,8 +275,6 @@ Student gửi yêu cầu dự đoán khả năng đạt GPA mục tiêu.
 
 - Prediction Result
 
----
-
 ## FR-05 View Prediction Result
 
 ### Description
@@ -333,12 +295,10 @@ Predicted GPA: 3.28
 
 Target GPA: 3.50
 
-Success Probability: 74%
+Success Probability: 74.0%
 
 Based on 120 Similar Students
 ```
-
----
 
 ## FR-06 View Prediction History
 
@@ -349,8 +309,6 @@ Student có thể xem kết quả dự đoán trong ngày hiện tại.
 ### Output
 
 - Prediction Result của ngày hiện tại.
-
----
 
 ## FR-07 Create User
 
@@ -368,8 +326,6 @@ Admin có thể tạo tài khoản mới.
 
 - User mới được tạo.
 
----
-
 ## FR-08 View User List
 
 ### Description
@@ -380,23 +336,17 @@ Admin có thể xem danh sách người dùng.
 
 - User List
 
----
-
 ## FR-09 Lock User
 
 ### Description
 
 Admin có thể khóa tài khoản người dùng.
 
----
-
 ## FR-10 Unlock User
 
 ### Description
 
 Admin có thể mở khóa tài khoản người dùng.
-
----
 
 ## FR-11 Manage Student Profile
 
@@ -410,11 +360,7 @@ Admin có thể quản lý hồ sơ sinh viên.
 - Update Profile
 - View Profile
 
----
-
 # 5. Use Case Specifications
-
----
 
 ## UC-01 Login
 
@@ -447,8 +393,6 @@ A2. Tài khoản bị khóa.
 ### Post-condition
 
 Người dùng đăng nhập thành công.
-
----
 
 ## UC-02 Submit Prediction Request
 
@@ -488,8 +432,6 @@ A2. Target GPA không hợp lệ.
 
 Prediction History được tạo.
 
----
-
 ## UC-03 View Prediction Result
 
 ### Actor
@@ -509,8 +451,6 @@ Student
 
 Không có.
 
----
-
 ## UC-04 View Prediction History
 
 ### Actor
@@ -522,8 +462,6 @@ Student
 1. Student mở History Page.
 2. Hệ thống lấy lịch sử trong ngày.
 3. Hiển thị kết quả.
-
----
 
 ## UC-05 Manage Student Profile
 
@@ -541,58 +479,42 @@ Admin
 
 Student Profile được cập nhật.
 
----
-
 # 6. Business Rules
 
 ## BR-01
 
 Mỗi Student chỉ được phép thực hiện một lần dự đoán trong một ngày.
 
----
-
 ## BR-02
 
 Nếu Student đã dự đoán trong ngày hiện tại thì hệ thống phải từ chối yêu cầu mới.
-
----
 
 ## BR-03
 
 Prediction History chỉ tồn tại trong ngày hiện tại.
 
----
-
 ## BR-04
 
 Student không được tự đăng ký tài khoản.
-
----
 
 ## BR-05
 
 Mọi tài khoản Student phải được tạo bởi Admin.
 
----
-
 ## BR-06
 
 Student không được chỉnh sửa Student Profile.
 
----
-
 ## BR-07
 
 Admin là đối tượng duy nhất được phép chỉnh sửa Student Profile.
-
----
 
 # 7. Data Requirements
 
 ## 7.1 Role
 
 | Field | Description |
-|---------|---------|
+| --- | --- |
 | role_id | Định danh vai trò |
 | role_name | Tên vai trò |
 
@@ -601,12 +523,10 @@ Ví dụ:
 - ADMIN
 - STUDENT
 
----
-
 ## 7.2 User
 
 | Field | Description |
-|---------|---------|
+| --- | --- |
 | user_id | Định danh người dùng |
 | username | Tên đăng nhập |
 | password_hash | Mật khẩu mã hóa |
@@ -615,12 +535,10 @@ Ví dụ:
 | created_at | Ngày tạo |
 | updated_at | Ngày cập nhật |
 
----
-
 ## 7.3 StudentProfile
 
 | Field | Description |
-|---------|---------|
+| --- | --- |
 | profile_id | Định danh hồ sơ |
 | user_id | Chủ sở hữu |
 | student_code | Mã sinh viên |
@@ -634,12 +552,10 @@ Ví dụ:
 | social_hours_per_week | Số giờ hoạt động xã hội |
 | previous_cgpa | GPA hiện tại |
 
----
-
 ## 7.4 PredictionHistory
 
 | Field | Description |
-|---------|---------|
+| --- | --- |
 | history_id | Định danh |
 | user_id | Người thực hiện |
 | target_gpa | GPA mục tiêu |
@@ -648,8 +564,6 @@ Ví dụ:
 | similar_student_count | Số sinh viên tương đồng |
 | prediction_date | Ngày dự đoán |
 | created_at | Thời gian tạo |
-
----
 
 # 8. Non-Functional Requirements
 
@@ -663,8 +577,6 @@ Response Time:
 
 cho một yêu cầu dự đoán trong điều kiện bình thường.
 
----
-
 ## NFR-02 Resource Usage
 
 Memory Usage:
@@ -672,8 +584,6 @@ Memory Usage:
 ```text
 < 500 MB
 ```
-
----
 
 ## NFR-03 Startup Time
 
@@ -683,27 +593,19 @@ Cold Start:
 < 3 seconds
 ```
 
----
-
 ## NFR-04 Security
 
 - Password phải được mã hóa.
 - Chỉ người dùng hợp lệ mới được truy cập hệ thống.
 - Student không được truy cập chức năng Admin.
 
----
-
 ## NFR-05 Maintainability
 
 Hệ thống phải được thiết kế theo kiến trúc module hóa.
 
----
-
 ## NFR-06 Portability
 
 Hệ thống phải triển khai được bằng Docker.
-
----
 
 # 9. Future Enhancements (Out of Scope)
 
@@ -716,8 +618,6 @@ Các chức năng sau không thuộc Version 1:
 - Mobile Application
 - Student Self Registration
 - Historical Analytics Dashboard
-
----
 
 # 10. Appendix
 
@@ -740,7 +640,5 @@ Admin
     ▼
 Web Application
 ```
-
----
 
 END OF DOCUMENT

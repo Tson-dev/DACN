@@ -3,7 +3,7 @@
 **Tên module**:
 CÔNG CỤ DỰ ĐOÁN KHẢ NĂNG ĐẠT MỤC TIÊU HỌC TẬP
 
-Version: 1.3
+Version: 1.3.2
 
 # 1. TỔNG QUAN & MỤC TIÊU
 
@@ -212,7 +212,9 @@ Similar Student Matching sử dụng thuật toán K-Nearest Neighbors (KNN) tr�
 
 Giá trị K sẽ được xác định trong giai đoạn triển khai và đánh giá mô hình.
 
-Kết quả trả về dưới dạng `float` (ví dụ: `0.75`).
+Kết quả trả về dưới dạng phần trăm (%).
+
+Ví dụ: `74.0` nghĩa là 74%.
 
 ## 5.5. Data Pipeline
 
@@ -243,28 +245,29 @@ Pipeline phải được lưu trữ thống nhất.
 
 # 7. YÊU CẦU CƠ SỞ DỮ LIỆU
 
-Cơ sở dữ liệu tối thiểu gồm 3 nhóm thực thể chính: `User`, `StudentProfile` và `PredictionHistory`.
+Cơ sở dữ liệu tối thiểu gồm 4 nhóm thực thể chính: `User`, `StudentProfile`, `PredictionHistory` và `Role`.
 
 ## 7.1. Sơ đồ quan hệ dữ liệu
 
 ```mermaid
 erDiagram
-    USER ||--|| STUDENT_PROFILE : "has"
+    USER ||--|| STUDENT_PROFILE : ""
     USER ||--o{ PREDICTION_HISTORY : "has"
+    ROLE ||--o{ USER : ""
 
     USER {
-        int user_id PK
+        int_or_uuid user_id PK
+        int_or_uuid role_id FK
         string username
         string password_hash
-        string role
         string status
         datetime created_at
         datetime updated_at
     }
 
     STUDENT_PROFILE {
-        int profile_id PK
-        int user_id FK
+        int_or_uuid profile_id PK
+        int_or_uuid user_id FK
         string student_code
         string full_name
         string gender
@@ -278,14 +281,20 @@ erDiagram
     }
 
     PREDICTION_HISTORY {
-        int history_id PK
-        int user_id FK
+        int_or_uuid history_id PK
+        int_or_uuid user_id FK
         float target_gpa
         float predicted_gpa
         float success_probability
         int similar_student_count
         datetime prediction_date
         datetime created_at
+    }
+
+    ROLE {
+    int_or_uuid role_id PK
+    string name
+    string des
     }
 
 ```
@@ -297,56 +306,66 @@ Trong đó:
 - **PredictionHistory** lưu lịch sử các lần dự đoán GPA.
 - **StudentProfile.`user_id`** tham chiếu đến **User.`user_id`**.
 - **PredictionHistory.`user_id`** tham chiếu đến **User.`user_id`**.
+- **User.`role_id`** tham chiếu **Role.`role_id`**
 
 ## 7.2. User
 
 | Trường | Kiểu dữ liệu đề xuất | Ràng buộc | Mô tả |
 | --- | --- | --- | --- |
 | `user_id` | BIGINT / UUID | PK | Định danh duy nhất của người dùng |
+| `role_id` | BIGINT / UUID | FK | Vai trò của người dùng, ví dụ `"STUDENT"` hoặc `"ADMIN"` |
 | `username` | VARCHAR | UNIQUE, NOT NULL | Tên đăng nhập |
 | `password_hash` | VARCHAR | NOT NULL | Mật khẩu đã được băm |
-| `role` | VARCHAR / ENUM | NOT NULL | Vai trò của người dùng, ví dụ `"STUDENT"` hoặc `"ADMIN"` |
 | `status` | VARCHAR / ENUM | NOT NULL | Trạng thái tài khoản |
 | `created_at` | TIMESTAMP | NOT NULL | Thời điểm tạo tài khoản |
 | `updated_at` | TIMESTAMP | NOT NULL | Thời điểm cập nhật tài khoản |
 
-## 7.3. StudentProfile (UserProfile)
+## 7.3. StudentProfile
 
 | Trường | Kiểu dữ liệu đề xuất | Ràng buộc | Mô tả |
 | --- | --- | --- | --- |
 | `profile_id` | BIGINT / UUID | PK | Định danh hồ sơ |
 | `user_id` | BIGINT / UUID | FK, UNIQUE, NOT NULL | Tham chiếu đến **User**.`user_id` |
-| student_code | VARCHAR | UNIQUE, NOT NULL | Mã số sinh viên |
-| full_name | VARCHAR | NOT NULL | Họ và tên sinh viên |
-| gender | VARCHAR / ENUM | - | Giới tính |
-| age | INT | - | Tuổi |
-| major | VARCHAR | - | Ngành học |
-| attendance_percentage | DECIMAL | - | Tỷ lệ chuyên cần |
-| study_hours_per_day | DECIMAL | - | Số giờ học trung bình mỗi ngày |
-| sleep_hours_per_day | DECIMAL | - | Số giờ ngủ trung bình mỗi ngày |
-| social_hours_per_week | DECIMAL | - | Số giờ hoạt động xã hội trung bình mỗi tuần |
-| previous_cgpa | DECIMAL | - | CGPA trước đó |
+| `student_code` | VARCHAR | UNIQUE, NOT NULL | Mã số sinh viên |
+| `full_name` | VARCHAR | NOT NULL | Họ và tên sinh viên |
+| `gender` | VARCHAR / ENUM | - | Giới tính |
+| `age` | INT | - | Tuổi |
+| `major` | VARCHAR | - | Ngành học |
+| `attendance_percentage` | DECIMAL | - | Tỷ lệ chuyên cần |
+| `study_hours_per_day` | DECIMAL | - | Số giờ học trung bình mỗi ngày |
+| `sleep_hours_per_day` | DECIMAL | - | Số giờ ngủ trung bình mỗi ngày |
+| `social_hours_per_week` | DECIMAL | - | Số giờ hoạt động xã hội trung bình mỗi tuần |
+| `previous_cgpa` | DECIMAL | - | CGPA trước đó |
 
 ## 7.4. PredictionHistory
 
 | Trường | Kiểu dữ liệu đề xuất | Ràng buộc | Mô tả |
 | --- | --- | --- | --- |
-| history_id | BIGINT / UUID | PK | Định danh bản ghi dự đoán |
-| user_id | BIGINT / UUID | FK, NOT NULL | Tham chiếu đến User.user_id |
-| target_gpa | DECIMAL | NOT NULL | GPA mục tiêu |
-| predicted_gpa | DECIMAL | NOT NULL | GPA dự đoán |
-| success_probability | DECIMAL / FLOAT | NOT NULL | Xác suất đạt GPA mục tiêu |
-| similar_student_count | INT | NOT NULL | Số lượng sinh viên tương đồng được sử dụng |
-| prediction_date | DATE | NOT NULL | Ngày thực hiện dự đoán |
-| created_at | TIMESTAMP | NOT NULL | Thời điểm tạo bản ghi |
+| `history_id` | BIGINT / UUID | PK | Định danh bản ghi dự đoán |
+| `user_id` | BIGINT / UUID | FK, NOT NULL | Tham chiếu đến **User.`user_id`** |
+| `target_gpa` | DECIMAL | NOT NULL | GPA mục tiêu |
+| `predicted_gpa` | DECIMAL | NOT NULL | GPA dự đoán |
+| `success_probability` | DECIMAL / FLOAT | NOT NULL | Xác suất đạt GPA mục tiêu |
+| `similar_student_count` | INT | NOT NULL | Số lượng sinh viên tương đồng được sử dụng |
+| `prediction_date` | DATE | NOT NULL | Ngày thực hiện dự đoán |
+| `created_at` | TIMESTAMP | NOT NULL | Thời điểm tạo bản ghi |
 
-## 7.5. Tóm tắt
+## 7.5. Role
+
+| Trường | Kiểu dữ liệu đề xuất | Ràng buộc | Mô tả |
+| --- | --- | --- | --- |
+| `role_id` | BIGINT / UUID | PK | Định danh bảng Role |
+| `name` | VARCHAR | UNIQUE | Tên của Role |
+| `desc` | VARCHAR | - | Mô tả của Role |
+
+## 7.6. Tóm tắt
 
 | Thực thể | Mục đích | Quan hệ |
 | --- | --- | --- |
 | User | Quản lý tài khoản, xác thực và phân quyền | 1:1 với StudentProfile; 1:N với PredictionHistory |
 | StudentProfile | Lưu thông tin cá nhân và đặc trưng học tập | N:1 với User |
 | PredictionHistory | Lưu kết quả và lịch sử dự đoán | N:1 với User |
+| Role | Lưu thông tin về Role | N:1 với User |
 
 # 8. TIÊU CHUẨN ĐÁNH GIÁ MÔ HÌNH
 
