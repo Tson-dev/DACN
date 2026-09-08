@@ -8,7 +8,7 @@
 | --- | --- |
 | Project Name | Target GPA Achievement Prediction System |
 | Vietnamese Name | Hệ thống dự đoán khả năng đạt GPA mục tiêu |
-| Version | 1.1.2 |
+| Version | 1.1.3 |
 | Document Type | Software Requirements Specification |
 | Development Team | 2 Members |
 | Project Duration | 12 Weeks |
@@ -53,7 +53,7 @@ Tài liệu dành cho:
 
 ## 1.4 References
 
-- SPEC v1.3.1
+- SPEC v1.3.2
 - Project Proposal (Short Version)
 - Project Proposal (Detailed Version)
 - SRS Preparation v1
@@ -115,6 +115,20 @@ Prediction Service
 SQLite Database
 ```
 
+```mermaid
+
+flowchart TB
+    FE[Frontend]
+    BE[Backend]
+    PS[Prediction Service]
+    DB[SQLite Database]
+
+    FE --> BE
+    BE--> PS
+    PS --> DB
+```
+
+
 ## 2.2 Product Functions
 
 Các chức năng chính:
@@ -140,24 +154,10 @@ Các chức năng chính:
 
 ## 2.3 User Classes
 
-### Student
-
-Người sử dụng chính của hệ thống.
-
-Quyền:
-
-- View Profile
-- Predict GPA Achievement
-- View Prediction History
-
-### Admin
-
-Người quản trị hệ thống.
-
-Quyền:
-
-- User Management
-- Student Profile Management
+| Tên | Mô tả | Quyền |
+| --- | --- | --- |
+| Student | Người sử dụng chính của hệ thống | - View Profile<br>- Predict GPA Achievement<br>- View Prediction History |
+| Admin | Người quản trị hệ thống | - User Management<br>- Student Profile Management |
 
 ## 2.4 Operating Environment
 
@@ -200,36 +200,10 @@ Quyền:
 
 # 3. System Actors
 
-## A1. Student
-
-### Description
-
-Người sử dụng chức năng dự đoán.
-
-### Permissions
-
-- Login
-- View Profile
-- Submit Prediction Request
-- View Prediction Result
-- View Prediction History
-- Logout
-
-## A2. Admin
-
-### Description
-
-Người quản trị hệ thống.
-
-### Permissions
-
-- Login
-- Create User
-- Manage User
-- Manage Student Profile
-- Lock User
-- Unlock User
-- Logout
+| Actor | Name | Description | Permissions |
+| --- | --- | --- | --- |
+| A1 | Student | Người sử dụng chức năng dự đoán. | - Login<br>- View Profile<br>- Submit Prediction Request<br>- View Prediction Result<br>- View Prediction History<br>- Logout |
+| A2 | Admin | Người quản trị hệ thống. | - Login<br>- Create User<br>- Manage User<br>- Manage Student Profile<br>- Lock User<br>- Unlock User<br>- Logout |
 
 # 4. Functional Requirements
 
