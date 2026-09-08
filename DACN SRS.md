@@ -8,7 +8,7 @@
 | --- | --- |
 | Project Name | Target GPA Achievement Prediction System |
 | Vietnamese Name | Hệ thống dự đoán khả năng đạt GPA mục tiêu |
-| Version | 1.0 |
+| Version | 1.1.2 |
 | Document Type | Software Requirements Specification |
 | Development Team | 2 Members |
 | Project Duration | 12 Weeks |
@@ -53,7 +53,7 @@ Tài liệu dành cho:
 
 ## 1.4 References
 
-- SPEC v2
+- SPEC v1.3.1
 - Project Proposal (Short Version)
 - Project Proposal (Detailed Version)
 - SRS Preparation v1
@@ -70,6 +70,37 @@ Hệ thống là một ứng dụng web bao gồm:
 - Database
 
 Mô hình tổng quát:
+
+```mermaid
+flowchart TB
+    Frontend[Frontend]
+
+    subgraph Backend[FastAPI Backend]
+        Probability[Probability Calculator]
+        Auth[Authentication Module]
+        Profile[Profile Module]
+        Prediction[Prediction Module]
+        GPA[GPA Predictor]
+        Similar[Similar Student Matching]
+
+        Auth ~~~ Profile
+        Prediction ~~~ GPA
+        GPA ~~~ Similar
+        Probability ~~~ Auth
+    end
+
+    DB[(SQLite Database)]
+
+    Frontend --> Backend
+
+    Auth --> DB
+    Profile --> DB
+    Prediction --> DB
+    GPA --> DB
+    Similar --> DB
+    Probability --> DB
+
+```
 
 ```text
 Student
@@ -106,8 +137,6 @@ Các chức năng chính:
 - Khóa tài khoản.
 - Mở khóa tài khoản.
 - Đăng xuất.
-
----
 
 ## 2.3 User Classes
 
@@ -204,161 +233,19 @@ Người quản trị hệ thống.
 
 # 4. Functional Requirements
 
-## FR-01 Login
-
-### Description
-
-Hệ thống phải cho phép người dùng đăng nhập bằng tài khoản được cấp.
-
-### Input
-
-- Username
-- Password
-
-### Processing
-
-- Xác thực thông tin đăng nhập.
-- Kiểm tra trạng thái tài khoản.
-
-### Output
-
-- Đăng nhập thành công.
-- Hoặc thông báo lỗi.
-
-## FR-02 Logout
-
-### Description
-
-Hệ thống phải cho phép người dùng đăng xuất khỏi hệ thống.
-
-## FR-03 View Profile
-
-### Description
-
-Student phải có khả năng xem hồ sơ cá nhân.
-
-### Output
-
-Hiển thị:
-
-- Student Code
-- Full Name
-- Gender
-- Age
-- Major
-- Attendance Percentage
-- Study Hours
-- Sleep Hours
-- Social Hours
-- Previous CGPA
-
-## FR-04 Submit Prediction Request
-
-### Description
-
-Student gửi yêu cầu dự đoán khả năng đạt GPA mục tiêu.
-
-### Input
-
-- Target GPA
-
-### Processing
-
-1. Kiểm tra điều kiện dự đoán.
-2. Lấy dữ liệu Student Profile.
-3. Tính Predicted GPA.
-4. Tìm nhóm sinh viên tương đồng.
-5. Tính Success Probability.
-6. Lưu lịch sử.
-
-### Output
-
-- Prediction Result
-
-## FR-05 View Prediction Result
-
-### Description
-
-Hiển thị kết quả dự đoán.
-
-### Output
-
-- Predicted GPA
-- Target GPA
-- Success Probability
-- Number of Similar Students
-
-Ví dụ:
-
-```text
-Predicted GPA: 3.28
-
-Target GPA: 3.50
-
-Success Probability: 74.0%
-
-Based on 120 Similar Students
-```
-
-## FR-06 View Prediction History
-
-### Description
-
-Student có thể xem kết quả dự đoán trong ngày hiện tại.
-
-### Output
-
-- Prediction Result của ngày hiện tại.
-
-## FR-07 Create User
-
-### Description
-
-Admin có thể tạo tài khoản mới.
-
-### Input
-
-- Username
-- Password
-- Role
-
-### Output
-
-- User mới được tạo.
-
-## FR-08 View User List
-
-### Description
-
-Admin có thể xem danh sách người dùng.
-
-### Output
-
-- User List
-
-## FR-09 Lock User
-
-### Description
-
-Admin có thể khóa tài khoản người dùng.
-
-## FR-10 Unlock User
-
-### Description
-
-Admin có thể mở khóa tài khoản người dùng.
-
-## FR-11 Manage Student Profile
-
-### Description
-
-Admin có thể quản lý hồ sơ sinh viên.
-
-### Operations
-
-- Create Profile
-- Update Profile
-- View Profile
+| ID | Functional Requirement | Description | Input | Processing | Operations | Output |
+| --- | --- | --- | --- | --- | --- | --- |
+| <span style="white-space: nowrap;">FR-01</span> | Login | Hệ thống cho phép người dùng đăng nhập bằng tài khoản được cấp. | - Username<br>- Password | 1. Xác thực thông tin đăng nhập.<br>2. Kiểm tra trạng thái tài khoản. | - | - Đăng nhập thành công.<br>- Hoặc thông báo lỗi. |
+| FR-02 | Logout | Hệ thống cho phép người dùng đăng xuất khỏi hệ thống. | - | - | - | - |
+| FR-03 | View Profile | Student có thể xem hồ sơ cá nhân.| - | - | - | Hiển thị:<br>- Student Code<br>- Full Name<br>- Gender<br>- Age<br>- Major<br>- Attendance Percentage<br>- Study Hours<br>- Sleep Hours<br>- Social Hours<br>- Previous CGPA |
+| FR-04 | Submit Prediction Request | Student gửi yêu cầu dự đoán khả năng đạt GPA mục tiêu. | Target GPA | 1. Kiểm tra điều kiện dự đoán.<br>2. Lấy dữ liệu Student Profile.<br>3. Tính Predicted GPA.<br>4. Tìm nhóm sinh viên tương đồng.<br>5. Tính Success Probability.<br>6. Lưu lịch sử. | - | Prediction Result |
+| FR-05 | View Prediction Result | Hiển thị kết quả dự đoán. | - | | - | - Predicted GPA<br>- Target GPA<br>- Success Probability<br>- Number of Similar Students<br><br>Ví dụ:<br>Predicted GPA: 3.28<br>Target GPA: 3.50<br>Success Probability: 74.0%<br>Based on 120 Similar Students |
+| FR-06 | View Prediction History | Student có thể xem kết quả dự đoán trong ngày hiện tại. | - | - | - | Prediction Result của ngày hiện tại. |
+| FR-07 | Create User | Admin có thể tạo tài khoản mới. | - Username<br>- Password<br>- Role | - | - | User mới được tạo. |
+| FR-08 | View User List | Admin có thể xem danh sách người dùng. | - | - | - | User List |
+| FR-09 | Lock User | Admin có thể khóa tài khoản người dùng. | - | - | - | - |
+| FR-10 | Unlock User | Admin có thể mở khóa tài khoản người dùng. | - | - | - | - |
+| FR-11 | Manage Student Profile | Admin có thể quản lý hồ sơ sinh viên. | - | - | - Update Profile<br>- View Profile | - |
 
 # 5. Use Case Specifications
 
@@ -424,9 +311,17 @@ A1. Student đã dự đoán trong ngày.
 
 → Từ chối yêu cầu.
 
-A2. Target GPA không hợp lệ.
+A2. Invalid Target GPA
 
-→ Hiển thị lỗi.
+Điều kiện:
+
+target_gpa <= 0 hoặc target_gpa > 4.0
+
+A3. Student Profile không tồn tại
+
+1. Hệ thống không tìm thấy Student Profile.
+2. Hệ thống từ chối yêu cầu dự đoán.
+3. Hệ thống hiển thị thông báo: `"Student Profile not found."`
 
 ### Post-condition
 
@@ -479,6 +374,82 @@ Admin
 
 Student Profile được cập nhật.
 
+## UC-06 Create User
+
+### Actor
+
+Admin
+
+### Pre-condition
+
+- Admin đã đăng nhập.
+
+### Main Flow
+
+1. Admin mở chức năng Create User.
+2. Admin nhập username, password và role.
+3. Hệ thống kiểm tra dữ liệu.
+4. Hệ thống tạo User mới.
+5. Hệ thống tự động tạo Student Profile rỗng tương ứng.
+6. Hệ thống hiển thị thông báo thành công.
+
+### Alternative Flow
+
+A1. Username đã tồn tại
+
+→ từ chối tạo.
+
+### Post-condition
+
+- User được tạo.
+- Student Profile rỗng được tạo tương ứng.
+
+## UC-07 View User List
+
+### Actor
+
+Admin
+
+### Main Flow
+
+1. Admin mở danh sách User.
+2. Hệ thống hiển thị danh sách User.
+3. Admin xem thông tin User.
+
+## UC-08 Lock User
+
+### Actor
+
+Admin
+
+### Main Flow
+
+1. Admin chọn User.
+2. Admin chọn Lock Account.
+3. Hệ thống cập nhật trạng thái LOCKED.
+4. Hệ thống hiển thị thông báo thành công.
+
+### Post-condition
+
+User được lên lịch chuyển sang trạng thái LOCKED từ ngày tiếp theo.
+
+## UC-09 Unlock User
+
+### Actor
+
+Admin
+
+### Main Flow
+
+1. Admin chọn User.
+2. Admin chọn Unlock Account.
+3. Hệ thống cập nhật trạng thái ACTIVE.
+4. Hệ thống hiển thị thông báo thành công.
+
+### Post-condition
+
+User ở trạng thái ACTIVE.
+
 # 6. Business Rules
 
 ## BR-01
@@ -491,7 +462,7 @@ Nếu Student đã dự đoán trong ngày hiện tại thì hệ thống phải
 
 ## BR-03
 
-Prediction History chỉ tồn tại trong ngày hiện tại.
+Chức năng View Prediction History chỉ hiển thị kết quả dự đoán của ngày hiện tại.
 
 ## BR-04
 
@@ -499,13 +470,26 @@ Student không được tự đăng ký tài khoản.
 
 ## BR-05
 
-Mọi tài khoản Student phải được tạo bởi Admin.
+User có hai trạng thái:
+
+- ACTIVE
+- LOCKED
 
 ## BR-06
 
-Student không được chỉnh sửa Student Profile.
+Khi tài khoản bị chuyển sang trạng thái LOCKED, thay đổi sẽ có hiệu lực từ ngày tiếp theo.
+
+Các phiên đăng nhập hiện tại vẫn được phép sử dụng đến hết ngày hiện tại.
 
 ## BR-07
+
+Mọi tài khoản Student phải được tạo bởi Admin.
+
+## BR-08
+
+Student không được chỉnh sửa Student Profile.
+
+## BR-09
 
 Admin là đối tượng duy nhất được phép chỉnh sửa Student Profile.
 
@@ -565,6 +549,18 @@ Ví dụ:
 | prediction_date | Ngày dự đoán |
 | created_at | Thời gian tạo |
 
+## 7.5 Validation Rules
+
+| Field | Rule |
+| --- | --- |
+| target_gpa | 0 < GPA ≤ 4.0 |
+| attendance_percentage | 0 ≤ value ≤ 100 |
+| previous_cgpa | 0 ≤ GPA ≤ 4.0 |
+| age | > 0 |
+| study_hours_per_day | ≥ 0 |
+| sleep_hours_per_day | ≥ 0 |
+| social_hours_per_week | ≥ 0 |
+
 # 8. Non-Functional Requirements
 
 ## NFR-01 Performance
@@ -618,6 +614,8 @@ Các chức năng sau không thuộc Version 1:
 - Mobile Application
 - Student Self Registration
 - Historical Analytics Dashboard
+- Profile Completeness Validation
+- Pending Account Status
 
 # 10. Appendix
 
