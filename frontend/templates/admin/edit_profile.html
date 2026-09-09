@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Edit Profile - Admin{% endblock %}
+{% block body %}
+<div class="navbar">
+    <h1>Admin Panel</h1>
+    <nav>
+        <a href="/admin">Dashboard</a>
+        <a href="/admin/users">Users</a>
+        <a href="/admin/profiles" class="active">Profiles</a>
+        <a href="#" onclick="logout()">Logout</a>
+    </nav>
+</div>
+<div id="adminSection" data-action="editProfile" data-profile-id="{{ profile_id }}"></div>
+<div class="page-container">
+    <div class="card">
+        <h2>Edit Student Profile</h2>
+        <div id="profileError" class="alert alert-error" style="display:none"></div>
+        <form id="editProfileForm" style="max-width:500px">
+            <div class="form-group">
+                <label for="studentCode">Student Code</label>
+                <input type="text" id="studentCode" required>
+            </div>
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" required>
+            </div>
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <select id="gender" required>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input type="number" id="age" required min="1">
+            </div>
+            <div class="form-group">
+                <label for="major">Major</label>
+                <input type="text" id="major" required>
+            </div>
+            <div class="form-group">
+                <label for="attendance">Attendance %</label>
+                <input type="number" id="attendance" required min="0" max="100" step="0.1">
+            </div>
+            <div class="form-group">
+                <label for="studyHours">Study Hours/Day</label>
+                <input type="number" id="studyHours" required min="0" step="0.1">
+            </div>
+            <div class="form-group">
+                <label for="sleepHours">Sleep Hours/Day</label>
+                <input type="number" id="sleepHours" required min="0" step="0.1">
+            </div>
+            <div class="form-group">
+                <label for="socialHours">Social Hours/Week</label>
+                <input type="number" id="socialHours" required min="0" step="0.1">
+            </div>
+            <div class="form-group">
+                <label for="previousCgpa">Previous CGPA</label>
+                <input type="number" id="previousCgpa" required min="0" max="4" step="0.01">
+            </div>
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a href="/admin/profiles" class="btn btn-outline">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/auth.js"></script>
+<script src="/static/js/admin.js"></script>
+{% endblock %}

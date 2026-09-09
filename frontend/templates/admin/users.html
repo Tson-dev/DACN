@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Manage Users - Admin{% endblock %}
+{% block body %}
+<div class="navbar">
+    <h1>Admin Panel</h1>
+    <nav>
+        <a href="/admin">Dashboard</a>
+        <a href="/admin/users" class="active">Users</a>
+        <a href="/admin/profiles">Profiles</a>
+        <a href="#" onclick="logout()">Logout</a>
+    </nav>
+</div>
+<div id="adminSection" data-action="users"></div>
+<div class="page-container">
+    <div class="card">
+        <h2>Users</h2>
+        <a href="/admin/users/create" class="btn btn-primary btn-sm" style="margin-bottom:1rem">+ Create User</a>
+        <table>
+            <thead>
+                <tr><th>ID</th><th>Username</th><th>Role</th><th>Status</th><th>Created</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="usersBody"></tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/auth.js"></script>
+<script src="/static/js/admin.js"></script>
+{% endblock %}

@@ -1,0 +1,5 @@
+INFO:     Started server process [15520]
+INFO:     Waiting for application startup.
+2026-09-10 00:55:38,620 - backend.ml.ml_service - INFO - ML model loaded successfully
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)

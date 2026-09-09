@@ -10,7 +10,6 @@
 |Vietnamese Name|Hệ thống dự đoán khả năng đạt GPA mục tiêu|
 |Version|1.1.3|
 |Document Type|Software Requirements Specification|
-|Development Team|2 Members|
 |Status|Draft|
 
 # 1. Introduction
@@ -83,7 +82,6 @@ BE--> PS
 PS --> DB
 ```
 
-
 ## 2.2 Product Functions
 
 Các chức năng chính:
@@ -116,7 +114,7 @@ Mở khóa tài khoản.
 
 ## 2.4 Operating Environment
 
-|Opertor|Environment|
+|Name|Environment|
 |---|---|
 |Backend|Python<br>FastAPI|
 |Machine Learning|LightGBM<br>Scikit-Learn|

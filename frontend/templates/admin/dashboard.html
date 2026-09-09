@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block body %}
+<div class="navbar">
+    <h1>Admin Panel</h1>
+    <nav>
+        <a href="/admin" class="active">Dashboard</a>
+        <a href="/admin/users">Users</a>
+        <a href="/admin/profiles">Profiles</a>
+        <a href="#" onclick="logout()">Logout</a>
+    </nav>
+</div>
+<div id="adminSection" data-action="dashboard"></div>
+<div class="page-container">
+    <div class="card">
+        <h2>System Overview</h2>
+        <div id="adminStats"><div class="empty-state">Loading...</div></div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/auth.js"></script>
+<script src="/static/js/admin.js"></script>
+{% endblock %}

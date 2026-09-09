@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Manage Profiles - Admin{% endblock %}
+{% block body %}
+<div class="navbar">
+    <h1>Admin Panel</h1>
+    <nav>
+        <a href="/admin">Dashboard</a>
+        <a href="/admin/users">Users</a>
+        <a href="/admin/profiles" class="active">Profiles</a>
+        <a href="#" onclick="logout()">Logout</a>
+    </nav>
+</div>
+<div id="adminSection" data-action="profiles"></div>
+<div class="page-container">
+    <div class="card">
+        <h2>Student Profiles</h2>
+        <table>
+            <thead>
+                <tr><th>ID</th><th>User ID</th><th>Student Code</th><th>Name</th><th>Major</th><th>CGPA</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="profilesBody"></tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/auth.js"></script>
+<script src="/static/js/admin.js"></script>
+{% endblock %}

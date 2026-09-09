@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - GPA Prediction{% endblock %}
+{% block body %}
+<div class="navbar">
+    <h1>GPA Prediction</h1>
+    <nav>
+        <a href="/dashboard" class="active">Dashboard</a>
+        <a href="/history">History</a>
+        <a href="#" onclick="logout()">Logout</a>
+    </nav>
+</div>
+<div class="page-container">
+    <div class="card">
+        <h2>My Profile</h2>
+        <div id="profileData"><div class="empty-state">Loading...</div></div>
+    </div>
+    <div class="card">
+        <h2>Make a Prediction</h2>
+        <div id="predictionResult"></div>
+        <div id="predictionError" class="alert alert-error" style="display:none"></div>
+        <form id="predictionForm" class="prediction-form">
+            <div class="form-group">
+                <label for="targetGpa">Target GPA (0 &lt; GPA &le; 4.0)</label>
+                <input type="number" id="targetGpa" step="0.01" min="0.01" max="4.0" required placeholder="e.g. 3.5">
+            </div>
+            <button type="submit" class="btn btn-primary">Predict</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/auth.js"></script>
+<script src="/static/js/dashboard.js"></script>
+{% endblock %}

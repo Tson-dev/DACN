@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}History - GPA Prediction{% endblock %}
+{% block body %}
+<div class="navbar">
+    <h1>GPA Prediction</h1>
+    <nav>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/history" class="active">History</a>
+        <a href="#" onclick="logout()">Logout</a>
+    </nav>
+</div>
+<div class="page-container">
+    <div class="card">
+        <h2>Prediction History</h2>
+        <div id="historyEmpty" class="empty-state" style="display:none">
+            <p>No predictions yet.</p>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Target GPA</th>
+                    <th>Predicted GPA</th>
+                    <th>Probability</th>
+                    <th>Similar Students</th>
+                </tr>
+            </thead>
+            <tbody id="historyBody"></tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/auth.js"></script>
+<script src="/static/js/history.js"></script>
+{% endblock %}
